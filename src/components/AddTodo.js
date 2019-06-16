@@ -12,9 +12,8 @@ class AddTodo extends Component {
     this.refs.input.value=''
   };
   onChange = e => {
-    console.log(e.target.name);
     this.setState({
-      [e.target.name]: e.target.value
+      title: e.target.value
     });
   };
 
@@ -27,7 +26,6 @@ class AddTodo extends Component {
             name="title"
             ref='input'
             placeholder="Add Todo..."
-            title={this.state.value}
             onChange={this.onChange}
             style={{ flex: "10", padding: "5px" }}
           />
