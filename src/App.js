@@ -4,27 +4,11 @@ import Header from "./components/layout/Header";
 import Todos from "./components/Todos";
 import AddTodo from "./components/AddTodo";
 import About from "./components/pages/About";
-
 import { rand } from "./utils/random";
+
 class App extends Component {
   state = {
-    todos: [
-      {
-        id: 1,
-        title: "Take out the trash",
-        completed: false
-      },
-      {
-        id: 2,
-        title: "Dinner with Wife",
-        completed: false
-      },
-      {
-        id: 3,
-        title: "Meeting with Boss",
-        completed: false
-      }
-    ]
+    todos: []
   };
 
   //toggle completed
@@ -53,31 +37,30 @@ class App extends Component {
     this.setState({ todos: [...this.state.todos, newTodo] });
   };
   render() {
-   
-      return (
-        <Router>
-      <div className="App">
-        <div className="container">
-          <Header />
-          <Route exact
-            path="/"
-            render={props => (
-              <React.Fragment>
-                <AddTodo addTodo={this.addTodo} />
-                <Todos
-                  todos={this.state.todos}
-                  markComplete={this.markComplete}
-                  delTodo={this.delTodo}
-                />
-              </React.Fragment>
-            )} />
-            <Route path="/about" component={About}
-          />
+    return (
+      <Router>
+        <div className="App">
+          <div className="container">
+            <Header />
+            <Route
+              exact
+              path="/"
+              render={props => (
+                <React.Fragment>
+                  <AddTodo addTodo={this.addTodo} />
+                  <Todos
+                    todos={this.state.todos}
+                    markComplete={this.markComplete}
+                    delTodo={this.delTodo}
+                  />
+                </React.Fragment>
+              )}
+            />
+            <Route path="/about" component={About} />
+          </div>
         </div>
-      </div>
-     
-    </Router>
-     );
+      </Router>
+    );
   }
 }
 
