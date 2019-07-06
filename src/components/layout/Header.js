@@ -1,17 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../../App.css"
 
 function Header() {
   return (
     <header style={headerStyle}>
       <h1>TodoList</h1>
-      <Link className='link' to="/">
+      <Link className="link" to="/">
         {" "}
         Home{" "}
       </Link>{" "}
       |{" "}
-      <Link className='link' to="/about">
+      <Link className="link" to="/about">
         {" "}
         About
       </Link>
