@@ -25,3 +25,7 @@ a {
 .btn:hover {
   background: #666;
 }
+.link{
+  color: #fff;
+  text-decoration: "none"
+}
