@@ -7,9 +7,12 @@ class AddTodo extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+    if (!this.refs.input.value) {
+      return alert("Add a to-do");
+    }
     this.props.addTodo(this.state.title);
     this.setState({ title: "" });
-    this.refs.input.value=''
+    this.refs.input.value = "";
   };
   onChange = e => {
     this.setState({
@@ -24,7 +27,7 @@ class AddTodo extends Component {
           <input
             type="text"
             name="title"
-            ref='input'
+            ref="input"
             placeholder="Add Todo..."
             onChange={this.onChange}
             style={{ flex: "10", padding: "5px" }}
