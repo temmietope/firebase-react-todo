@@ -14,6 +14,16 @@ a {
 .container {
   padding: 0 1rem;
 }
+::placeholder {
+  color: gray;
+  font-style: italic;
+}
+:focus {
+  outline: none;
+  border: 1px solid coral;
+  box-shadow: 0 0 5px coral;
+}
+
 .btn {
   display: inline-block;
   border: none;
@@ -25,7 +35,7 @@ a {
 .btn:hover {
   background: #666;
 }
-.link{
+.link {
   color: #fff;
-  text-decoration: "none"
+  text-decoration: "none";
 }
