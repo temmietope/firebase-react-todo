@@ -2,38 +2,67 @@ import React, { Component } from "react";
 import Header from "./layout/Header";
 import Todos from "./Todos";
 import AddTodo from "./AddTodo";
-import { rand } from "../utils/random";
+import { DB_CONFIG } from "../Config/config";
+import firebase from "firebase/app";
+import "firebase/database"
 
 class Home extends Component {
-  state = {
-    todos: []
-  };
+  constructor(props) {
+    super(props)
+    this.state = {
+      todos: []
+    };
+    this.app = firebase.initializeApp(DB_CONFIG);
+    this.db = this.app.database().ref().child("todos")
+  }
 
-  //toggle completed
-  markComplete = id => {
-    this.setState({
-      todos: this.state.todos.map(todo => {
-        if (todo.id === id) {
+  componentWillMount() {
+    const previousTodos = this.state.todos
+    this.db.on('child_added', (snap) => {
+      previousTodos.push({
+        id: snap.key,
+        title: snap.val().title,
+        completed: false
+      })
+      this.setState({
+        todos: previousTodos
+      })
+    })
+    this.db.on('child_removed', (snap) => {
+      for (let i = 0; i < previousTodos.length; i++) {
+        if (previousTodos[i].id === snap.key) {
+          previousTodos.splice(i, 1);
+        }
+      }
+      this.setState({
+        todos: previousTodos
+      })
+    })
+    this.db.on('child_changed', (snap) => {
+      previousTodos.map(todo => {
+        if (todo.id === snap.key) {
           todo.completed = !todo.completed;
         }
-        return todo;
+        return todo
       })
-    });
+      this.setState({
+        todos: previousTodos
+      })
+    })
+  }
+
+  //toggle completed
+  markComplete = (id, completed) => {
+    this.db.child(id).update({ completed: completed })
+
   };
   //delete Todo
   delTodo = id => {
-    const todos = this.state.todos.filter(todo => todo.id !== id);
-    this.setState({ todos });
+    this.db.child(id).remove()
   };
   //add Todo
   addTodo = title => {
-    const newTodo = {
-      id: rand(),
-      title: title,
-      completed: false
-    };
-    const todos = [...this.state.todos, newTodo];
-    this.setState({ todos });
+    this.db.push().set({ title: title })
   };
   render() {
     return (
